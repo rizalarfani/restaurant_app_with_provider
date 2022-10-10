@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/providers/categories_provider.dart';
 import 'package:restaurant_app/providers/populars_provider.dart';
 import 'package:restaurant_app/screen/favorite_screen.dart';
 import 'package:restaurant_app/screen/home_screen.dart';
@@ -37,8 +38,15 @@ class _HomePageState extends State<HomePage> {
         child: IndexedStack(
           index: tabIndex,
           children: [
-            ChangeNotifierProvider<PopularsProvider>(
-              create: (_) => PopularsProvider(apiService: ServiceApi()),
+            MultiProvider(
+              providers: [
+                ChangeNotifierProvider<PopularsProvider>(
+                  create: (_) => PopularsProvider(apiService: ServiceApi()),
+                ),
+                ChangeNotifierProvider<CategoriesProvider>(
+                  create: (_) => CategoriesProvider(),
+                )
+              ],
               child: const HomeScreen(),
             ),
             const LocationScrenn(),

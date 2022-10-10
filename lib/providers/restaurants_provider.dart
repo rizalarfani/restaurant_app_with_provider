@@ -6,11 +6,11 @@ import 'package:restaurant_app/service/service_api.dart';
 
 enum ResultState { loading, noData, hashData, errors }
 
-class PopularsProvider extends ChangeNotifier {
+class RestaurantProvider extends ChangeNotifier {
   final ServiceApi apiService;
 
-  PopularsProvider({required this.apiService}) {
-    _getPopularRestaurants();
+  RestaurantProvider({required this.apiService}) {
+    _getAllRestaurant();
   }
 
   late List<Restaurants> _restaurants;
@@ -21,7 +21,7 @@ class PopularsProvider extends ChangeNotifier {
   List<Restaurants> get result => _restaurants;
   ResultState get state => _state;
 
-  Future<dynamic> _getPopularRestaurants() async {
+  Future<dynamic> _getAllRestaurant() async {
     try {
       _state = ResultState.loading;
       notifyListeners();
@@ -33,14 +33,13 @@ class PopularsProvider extends ChangeNotifier {
       } else {
         _state = ResultState.hashData;
         notifyListeners();
-        return _restaurants =
-            restaurants.where((element) => element.rating > 4).toList();
+        return _restaurants = restaurants;
       }
     } on SocketException catch (_) {
       _state = ResultState.errors;
       notifyListeners();
       return _message = 'No Internet Connection, Please check your internet';
-    } on Error catch (e) {
+    } catch (e) {
       _state = ResultState.errors;
       notifyListeners();
       return _message = 'Error --> $e';

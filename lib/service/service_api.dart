@@ -20,6 +20,8 @@ class ServiceApi {
       } else {
         return data.map((e) => Restaurants.fromJson(e)).toList();
       }
+    } else if (response.statusCode == 404) {
+      return [];
     } else {
       throw Exception(response.body);
     }

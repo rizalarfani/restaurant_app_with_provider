@@ -1,43 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/providers/categories_provider.dart';
 import 'package:restaurant_app/providers/populars_provider.dart';
 import 'package:restaurant_app/screen/restaurant_all_screen.dart';
 import 'package:restaurant_app/utils/colors_theme.dart';
+import 'package:restaurant_app/widget/error_text.dart';
 import 'package:restaurant_app/widget/list_category.dart';
 import 'package:restaurant_app/widget/list_restaurant.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int selectedCategory = 0;
-  final List<Map<String, dynamic>> _listCategorys = [
-    {
-      'title': 'Burger',
-      'img': 'assets/img/burger.png',
-    },
-    {
-      'title': 'Donat',
-      'img': 'assets/img/donat.png',
-    },
-    {
-      'title': 'Pizza',
-      'img': 'assets/img/pizza.png',
-    },
-    {
-      'title': 'Mexican',
-      'img': 'assets/img/mexian.png',
-    },
-    {
-      'title': 'Asian',
-      'img': 'assets/img/asian.png',
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -168,23 +141,26 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.only(left: 24),
               child: SizedBox(
                 height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _listCategorys.length,
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> category = _listCategorys[index];
-                    return ListCategory(
-                      index: index,
-                      selected: selectedCategory,
-                      title: category.values.first.toString(),
-                      img: category.values.last.toString(),
-                      onTap: () {
-                        setState(() {
-                          selectedCategory = index;
-                        });
-                      },
-                    );
-                  },
+                child: Consumer<CategoriesProvider>(
+                  builder: (context, categories, _) => ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categories.listCategories.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> category =
+                          categories.listCategories[index];
+                      return ListCategory(
+                        index: index,
+                        selected: categories.selectedCategory,
+                        title: category.values.first.toString(),
+                        img: category.values.last.toString(),
+                        onTap: () {
+                          Provider.of<CategoriesProvider>(context,
+                                  listen: false)
+                              .changeCategory(index);
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -237,23 +213,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   } else if (state.state == ResultState.noData) {
-                    return Center(
-                      child: Material(
-                        child: Text(state.message),
-                      ),
-                    );
+                    return ErrorText(textError: state.message);
                   } else if (state.state == ResultState.errors) {
-                    return Center(
-                      child: Material(
-                        child: Text(state.message),
-                      ),
-                    );
+                    return ErrorText(textError: state.message);
                   } else {
-                    return const Center(
-                      child: Material(
-                        child: Text(''),
-                      ),
-                    );
+                    return ErrorText(textError: state.message);
                   }
                 },
               ),
