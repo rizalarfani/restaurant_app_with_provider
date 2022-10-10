@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:restaurant_app/screen/detail_restaurant_screen.dart';
 
 import '../models/restaurant_model.dart';
 import '../utils/colors_theme.dart';
@@ -12,18 +11,6 @@ class ListRestaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DetailRestaurantScreen(
-                restaurants: restaurant,
-              );
-            },
-          ),
-        );
-      },
       child: Padding(
         padding: const EdgeInsets.only(
           left: 25,
@@ -54,7 +41,7 @@ class ListRestaurant extends StatelessWidget {
                       topLeft: Radius.circular(15),
                     ),
                     child: Image.network(
-                      restaurant!.pictureId!,
+                      'https://restaurant-api.dicoding.dev/images/small/${restaurant!.pictureId}',
                       fit: BoxFit.cover,
                       height: 136,
                       width: double.infinity,
@@ -161,25 +148,6 @@ class ListRestaurant extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 22,
-                      child: ListView.builder(
-                        itemCount: restaurant?.menus?.foods?.length ?? 0,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          String? name = restaurant!.menus!.foods![index].name;
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Text(
-                              name?.toUpperCase() ?? '',
-                              style: Theme.of(context).textTheme.caption,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 10),
                   ],
                 ),
               )

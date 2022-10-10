@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/providers/populars_provider.dart';
 import 'package:restaurant_app/screen/favorite_screen.dart';
 import 'package:restaurant_app/screen/home_screen.dart';
 import 'package:restaurant_app/screen/location_screen.dart';
 import 'package:restaurant_app/screen/notification_screen.dart';
+import 'package:restaurant_app/service/service_api.dart';
 import 'package:restaurant_app/utils/colors_theme.dart';
 import 'package:restaurant_app/utils/theme_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,11 +36,14 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: IndexedStack(
           index: tabIndex,
-          children: const [
-            HomeScreen(),
-            LocationScrenn(),
-            FavoriteScreen(),
-            NotificationScreen(),
+          children: [
+            ChangeNotifierProvider<PopularsProvider>(
+              create: (_) => PopularsProvider(apiService: ServiceApi()),
+              child: const HomeScreen(),
+            ),
+            const LocationScrenn(),
+            const FavoriteScreen(),
+            const NotificationScreen(),
           ],
         ),
       ),
@@ -89,22 +95,23 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: _changeTheme ? Colors.white : ColorsTheme.primaryColor,
-        child: Icon(
-          _changeTheme ? Icons.light_mode : Icons.dark_mode,
-        ),
-        onPressed: () async {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('theme', !_changeTheme);
-        setState(() {
-          _changeTheme = !_changeTheme;
-          if (_changeTheme) {
-            MyApp.of(context)!.changeTheme(ThemeConfig.darkTheme);
-          } else {
-            MyApp.of(context)!.changeTheme(ThemeConfig.lightTheme);
-          }
-        });
-      }),
+          backgroundColor:
+              _changeTheme ? Colors.white : ColorsTheme.primaryColor,
+          child: Icon(
+            _changeTheme ? Icons.light_mode : Icons.dark_mode,
+          ),
+          onPressed: () async {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setBool('theme', !_changeTheme);
+            setState(() {
+              _changeTheme = !_changeTheme;
+              if (_changeTheme) {
+                MyApp.of(context)!.changeTheme(ThemeConfig.darkTheme);
+              } else {
+                MyApp.of(context)!.changeTheme(ThemeConfig.lightTheme);
+              }
+            });
+          }),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:restaurant_app/models/restaurant_model.dart';
 
-import '../screen/detail_restaurant_screen.dart';
 import '../utils/colors_theme.dart';
 
 class ListAllRestaurants extends StatelessWidget {
@@ -12,18 +11,6 @@ class ListAllRestaurants extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DetailRestaurantScreen(
-                restaurants: restaurant,
-              );
-            },
-          ),
-        );
-      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 25,

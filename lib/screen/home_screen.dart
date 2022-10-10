@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:restaurant_app/models/restaurant_model.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/providers/populars_provider.dart';
 import 'package:restaurant_app/screen/restaurant_all_screen.dart';
 import 'package:restaurant_app/utils/colors_theme.dart';
 import 'package:restaurant_app/widget/list_category.dart';
@@ -39,19 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
       'img': 'assets/img/asian.png',
     },
   ];
-
-  List<Restaurants> parseRestaurant(String? json) {
-    if (json == null) {
-      return [];
-    }
-
-    final body = jsonDecode(json);
-    final List parsed = body['restaurants'];
-    return parsed
-        .map((json) => Restaurants.fromJson(json))
-        .where((element) => element.rating! > 4.0)
-        .toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -236,19 +222,39 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 15),
             SizedBox(
               height: 229,
-              child: FutureBuilder<String>(
-                future: DefaultAssetBundle.of(context)
-                    .loadString('assets/json/local_restaurant.json'),
-                builder: (context, snapshot) {
-                  final List<Restaurants> restaurants =
-                      parseRestaurant(snapshot.data);
-                  return ListView.builder(
-                    itemCount: restaurants.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => ListRestaurant(
-                      restaurant: restaurants[index],
-                    ),
-                  );
+              child: Consumer<PopularsProvider>(
+                builder: (context, state, _) {
+                  if (state.state == ResultState.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state.state == ResultState.hashData) {
+                    return ListView.builder(
+                      itemCount: state.result.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => ListRestaurant(
+                        restaurant: state.result[index],
+                      ),
+                    );
+                  } else if (state.state == ResultState.noData) {
+                    return Center(
+                      child: Material(
+                        child: Text(state.message),
+                      ),
+                    );
+                  } else if (state.state == ResultState.errors) {
+                    return Center(
+                      child: Material(
+                        child: Text(state.message),
+                      ),
+                    );
+                  } else {
+                    return const Center(
+                      child: Material(
+                        child: Text(''),
+                      ),
+                    );
+                  }
                 },
               ),
             ),
