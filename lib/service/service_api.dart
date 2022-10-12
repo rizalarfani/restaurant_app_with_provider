@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show Client, Response;
+import 'package:restaurant_app/models/detail_restaurant_model.dart';
 import 'package:restaurant_app/models/restaurant_model.dart';
 import '../utils/constans.dart';
 
@@ -26,4 +28,18 @@ class ServiceApi {
       throw Exception(response.body);
     }
   }
+
+  // Future<DetailRestaurantModel> getDetailRestaurant(String id) async {
+  //   Uri url = Uri.parse(_baseUrl + 'detail/$id');
+  //   Response response = await _client.get(url);
+  //   if (response.statusCode == 200) {
+  //     DetailRestaurantModel restaurant =
+  //         (jsonDecode(response.body) as Map<String, dynamic>)['restaurant'];
+  //     if (restaurant != null) {
+  //       return restaurant;
+  //     } else {
+  //       return null;
+  //     }
+  //   }
+  // }
 }
