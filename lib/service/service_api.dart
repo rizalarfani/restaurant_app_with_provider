@@ -29,13 +29,12 @@ class ServiceApi {
   }
 
   Future<DetailRestaurantModel> getDetailRestaurant(String id) async {
-    print(id);
     Uri url = Uri.parse(_baseUrl + 'detail/$id');
     Response response = await _client.get(url);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       return DetailRestaurantModel.fromJson(jsonDecode(response.body));
-    }else{
-      throw(response.body);
+    } else {
+      throw (response.body);
     }
   }
 }
