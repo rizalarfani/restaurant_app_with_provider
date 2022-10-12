@@ -34,14 +34,17 @@ class DetailRestaurant extends StatelessWidget {
                     children: [
                       Stack(
                         children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            child: Image.network(
-                              state.restaurant.pictureId ?? '',
-                              fit: BoxFit.cover,
-                              width: double.infinity,
+                          Hero(
+                            tag: state.restaurant.id ?? '',
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              child: Image.network(
+                                'https://restaurant-api.dicoding.dev/images/large/${state.restaurant.pictureId}',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
                             ),
                           ),
                           Container(
