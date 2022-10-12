@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/home.dart';
+import 'package:restaurant_app/providers/bottom_navigation_bar_provider.dart';
+import 'package:restaurant_app/providers/categories_provider.dart';
+import 'package:restaurant_app/providers/populars_provider.dart';
+import 'package:restaurant_app/providers/theme_config_provider.dart';
+import 'package:restaurant_app/service/service_api.dart';
 import 'package:restaurant_app/utils/theme_config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  runApp(MyApp(
-    themeState: prefs.getBool('theme'),
-  ));
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -22,30 +23,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late ThemeData _themeData;
-
-  @override
-  void initState() {
-    _themeData = widget.themeState == null
-        ? ThemeConfig.lightTheme
-        : ThemeConfig.darkTheme;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Food Hub',
-      theme: _themeData,
-      darkTheme: ThemeConfig.darkTheme,
-      home: const HomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<BottomNavigationBarProvider>(
+          create: (context) => BottomNavigationBarProvider(),
+        ),
+        ChangeNotifierProvider<PopularsProvider>(
+          create: (_) => PopularsProvider(apiService: ServiceApi()),
+        ),
+        ChangeNotifierProvider<CategoriesProvider>(
+          create: (_) => CategoriesProvider(),
+        ),
+        ChangeNotifierProvider<ThemeConfigProvider>(
+          create: (_) => ThemeConfigProvider(),
+        ),
+      ],
+      child: Consumer<ThemeConfigProvider>(
+        builder: (context, state, _) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Food Hub',
+            theme:
+                state.isDark ? ThemeConfig.darkTheme : ThemeConfig.lightTheme,
+            darkTheme: ThemeConfig.darkTheme,
+            home: const HomePage(),
+          );
+        },
+      ),
     );
-  }
-
-  void changeTheme(ThemeData themeData) {
-    setState(() {
-      _themeData = themeData;
-    });
   }
 }
