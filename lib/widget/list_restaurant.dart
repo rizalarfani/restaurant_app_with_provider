@@ -116,6 +116,8 @@ class ListRestaurant extends StatelessWidget {
                       const SizedBox(height: 12),
                       Text(
                         restaurant?.name ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       const SizedBox(height: 8),
@@ -144,6 +146,8 @@ class ListRestaurant extends StatelessWidget {
                               const SizedBox(width: 5),
                               Text(
                                 restaurant?.city ?? '',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                                 style: Theme.of(context).textTheme.caption,
                               ),
                             ],

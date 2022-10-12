@@ -39,7 +39,7 @@ class RestaurantProvider extends ChangeNotifier {
       _state = ResultState.errors;
       notifyListeners();
       return _message = 'No Internet Connection, Please check your internet';
-    } catch (e) {
+    } on Error catch (e) {
       _state = ResultState.errors;
       notifyListeners();
       return _message = 'Error --> $e';
