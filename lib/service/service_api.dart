@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show Client, Response;
@@ -29,17 +28,14 @@ class ServiceApi {
     }
   }
 
-  // Future<DetailRestaurantModel> getDetailRestaurant(String id) async {
-  //   Uri url = Uri.parse(_baseUrl + 'detail/$id');
-  //   Response response = await _client.get(url);
-  //   if (response.statusCode == 200) {
-  //     DetailRestaurantModel restaurant =
-  //         (jsonDecode(response.body) as Map<String, dynamic>)['restaurant'];
-  //     if (restaurant != null) {
-  //       return restaurant;
-  //     } else {
-  //       return null;
-  //     }
-  //   }
-  // }
+  Future<DetailRestaurantModel> getDetailRestaurant(String id) async {
+    print(id);
+    Uri url = Uri.parse(_baseUrl + 'detail/$id');
+    Response response = await _client.get(url);
+    if(response.statusCode == 200){
+      return DetailRestaurantModel.fromJson(jsonDecode(response.body));
+    }else{
+      throw(response.body);
+    }
+  }
 }

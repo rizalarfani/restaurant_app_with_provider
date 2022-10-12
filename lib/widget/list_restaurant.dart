@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/providers/detail_restaurant_provider.dart';
+import 'package:restaurant_app/screen/detail_restaurant.dart';
 
 import '../models/restaurant_model.dart';
 import '../utils/colors_theme.dart';
@@ -10,7 +13,13 @@ class ListRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DetailRestaurantProvider detailRestaurantProvider = Provider.of<DetailRestaurantProvider>(context);
+
     return GestureDetector(
+      onTap: () {
+        detailRestaurantProvider.id = restaurant?.id ?? '';
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailRestaurant()),);
+      },
       child: Padding(
         padding: const EdgeInsets.only(
           left: 25,
