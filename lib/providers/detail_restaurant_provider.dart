@@ -8,28 +8,22 @@ enum ResultState { loading, noData, hashData, errors }
 
 class DetailRestaurantProvider extends ChangeNotifier{
   final ServiceApi apiService;
+  final String id;
 
-  DetailRestaurantProvider({required this.apiService}){
+  DetailRestaurantProvider({required this.apiService, required this.id}){
     _getDetailRestaurant();
   }
-
-  String? _id;
+  
   late Restaurant _restaurants;
   late ResultState _state;
   String _message = '';
   bool _showMore = false;
 
-  String get id => _id ?? '';
   Restaurant get restaurant => _restaurants;
   ResultState get state => _state;
   String get message => _message;
   bool get showMore => _showMore;
   
-  set id(String id) {
-    _id = id;
-    notifyListeners();
-  }
-
   set showMore(bool value){
     _showMore = value;
     notifyListeners();

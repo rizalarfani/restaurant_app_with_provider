@@ -29,7 +29,6 @@ class ServiceApi {
   }
 
   Future<DetailRestaurantModel> getDetailRestaurant(String id) async {
-  
     Uri url = Uri.parse('https://restaurant-api.dicoding.dev/detail/$id');
     var response = await _client.get(url);
     if(response.statusCode == 200){
