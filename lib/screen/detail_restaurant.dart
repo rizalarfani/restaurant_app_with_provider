@@ -16,6 +16,8 @@ class DetailRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController textControllerName = TextEditingController();
+    final TextEditingController textControllerReview = TextEditingController();
     return ChangeNotifierProvider<DetailRestaurantProvider>(
       create: (context) =>
           DetailRestaurantProvider(apiService: ServiceApi(), id: id),
@@ -200,7 +202,191 @@ class DetailRestaurant extends StatelessWidget {
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showBottomSheet(
+                                  context: context,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(15),
+                                      topLeft: Radius.circular(15),
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.white,
+                                  builder: (context) {
+                                    return Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 16, right: 24, top: 10),
+                                      width: double.infinity,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              2,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(15),
+                                          topLeft: Radius.circular(15),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () =>
+                                                    Navigator.pop(context),
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.75),
+                                                  size: 25,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Add review restaurant',
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      ColorsTheme.primaryColor,
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  textControllerName.clear();
+                                                  textControllerReview.clear();
+                                                },
+                                                child: Text(
+                                                  'Clear',
+                                                  style: TextStyle(
+                                                    color: ColorsTheme
+                                                        .secundaryTextColor,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 20),
+                                          TextField(
+                                            controller: textControllerName,
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            keyboardType: TextInputType.name,
+                                            decoration: InputDecoration(
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              hintText: 'Name address',
+                                              hintStyle: TextStyle(
+                                                fontSize: 14,
+                                                color: ColorsTheme
+                                                    .secundaryTextColor,
+                                              ),
+                                              border: const OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
+                                              enabledBorder:
+                                                  const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        241, 240, 240, 1),
+                                                    width: 1.0),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
+                                              focusedBorder:
+                                                  const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color.fromRGBO(
+                                                        241, 240, 240, 1),
+                                                    width: 2.0),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(15),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 20),
+                                          SizedBox(
+                                            width: double.infinity,
+                                            height: 150,
+                                            child: TextField(
+                                              controller: textControllerReview,
+                                              keyboardType: TextInputType.text,
+                                              textInputAction:
+                                                  TextInputAction.done,
+                                              maxLines: 5,
+                                              decoration: InputDecoration(
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                hintText: 'Review',
+                                                hintStyle: TextStyle(
+                                                  fontSize: 14,
+                                                  color: ColorsTheme
+                                                      .secundaryTextColor,
+                                                ),
+                                                border:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                ),
+                                                enabledBorder:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          241, 240, 240, 1),
+                                                      width: 1.0),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                ),
+                                                focusedBorder:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          241, 240, 240, 1),
+                                                      width: 2.0),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(15),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          ElevatedButton(
+                                            onPressed: () {},
+                                            style: ButtonStyle(
+                                              foregroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.white),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      ColorsTheme.primaryColor),
+                                            ),
+                                            child: const Text('Add Review'),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                               child: Text(
                                 'Add review',
                                 style: Theme.of(context).textTheme.subtitle2,
