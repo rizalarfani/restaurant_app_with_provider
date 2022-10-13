@@ -29,17 +29,16 @@ class ServiceApi {
   }
 
   Future<DetailRestaurantModel> getDetailRestaurant(String id) async {
-  
     Uri url = Uri.parse('https://restaurant-api.dicoding.dev/detail/$id');
     var response = await _client.get(url);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       DetailRestaurantModel restaurants = DetailRestaurantModel.fromJson(data);
       return restaurants;
-    } else if(response.statusCode == 404) {
+    } else if (response.statusCode == 404) {
       return DetailRestaurantModel.fromJson(jsonDecode(response.body));
-    } else{
-      throw(response.body);
+    } else {
+      throw (response.body);
     }
   }
 }

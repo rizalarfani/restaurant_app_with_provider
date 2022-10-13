@@ -44,10 +44,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<RestaurantProvider>(
           create: (_) => RestaurantProvider(apiService: ServiceApi()),
         ),
-        ChangeNotifierProvider<DetailRestaurantProvider>(
-          create: (_) => DetailRestaurantProvider(apiService: ServiceApi()),
-        ),
-      
       ],
       child: Consumer<ThemeConfigProvider>(
         builder: (context, state, _) {
