@@ -385,7 +385,6 @@ class DetailRestaurant extends StatelessWidget {
                                                   if (value.state ==
                                                       reviews.ResultState
                                                           .loading) {
-                                                    print('loading');
                                                     showDialog(
                                                       context: context,
                                                       builder: (context) {
@@ -398,7 +397,6 @@ class DetailRestaurant extends StatelessWidget {
                                                   } else if (value.state ==
                                                       reviews
                                                           .ResultState.done) {
-                                                    print('done');
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
@@ -420,7 +418,6 @@ class DetailRestaurant extends StatelessWidget {
                                                   } else if (value.state ==
                                                       reviews
                                                           .ResultState.errors) {
-                                                    print(value.message);
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(

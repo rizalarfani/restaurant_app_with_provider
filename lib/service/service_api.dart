@@ -55,11 +55,9 @@ class ServiceApi {
       'review': review,
     });
     Response response = await _client.post(url, headers: headers, body: json);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return CustomerReviewModel.fromJson(jsonDecode(response.body));
     } else {
-      print(response.body);
       throw (response.body);
     }
   }
