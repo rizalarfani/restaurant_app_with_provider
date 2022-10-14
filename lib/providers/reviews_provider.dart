@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:restaurant_app/service/service_api.dart';
 
@@ -19,10 +21,21 @@ class ReviewsProvider extends ChangeNotifier {
       notifyListeners();
       final result = await apiServie.addReview(id, name, review);
       if (!result.error!) {
+        _state = ResultState.done;
+        notifyListeners();
+        _message = result.message ?? '';
       } else {
         _message = result.message ?? '';
         notifyListeners();
       }
-    } catch (e) {}
+    } on SocketException catch (_) {
+      _state = ResultState.errors;
+      notifyListeners();
+      _message = 'No Internet Connection, Please check your internet';
+    } on Error catch (e) {
+      _state = ResultState.errors;
+      notifyListeners();
+      _message = 'Error --> $e';
+    }
   }
 }
