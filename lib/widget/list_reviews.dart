@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/utils/colors_theme.dart';
-import '../models/detail_restaurant_model.dart';
 
 class ListReviews extends StatelessWidget {
-  final CustomerReviews customerReviews;
+  final dynamic customerReviews;
   const ListReviews({Key? key, required this.customerReviews})
       : super(key: key);
 

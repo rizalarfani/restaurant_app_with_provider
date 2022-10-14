@@ -6,25 +6,27 @@ import '../service/service_api.dart';
 
 enum ResultState { loading, noData, hashData, errors }
 
-class DetailRestaurantProvider extends ChangeNotifier{
+class DetailRestaurantProvider extends ChangeNotifier {
   final ServiceApi apiService;
   final String id;
 
-  DetailRestaurantProvider({required this.apiService, required this.id}){
+  DetailRestaurantProvider({required this.apiService, required this.id}) {
     _getDetailRestaurant();
   }
-  
+
   late Restaurant _restaurants;
+  late List<CustomerReviews> _customerReviews;
   late ResultState _state;
   String _message = '';
   bool _showMore = false;
 
   Restaurant get restaurant => _restaurants;
+  List<CustomerReviews> get customerReviews => _customerReviews;
   ResultState get state => _state;
   String get message => _message;
   bool get showMore => _showMore;
-  
-  set showMore(bool value){
+
+  set showMore(bool value) {
     _showMore = value;
     notifyListeners();
   }
@@ -34,11 +36,12 @@ class DetailRestaurantProvider extends ChangeNotifier{
       _state = ResultState.loading;
       notifyListeners();
       final restaurant = await apiService.getDetailRestaurant(id);
-      if(restaurant.error == false){
+      if (restaurant.error == false) {
         _state = ResultState.hashData;
+        _customerReviews = restaurant.restaurant!.customerReviews!;
         notifyListeners();
         return _restaurants = restaurant.restaurant!;
-      }else{
+      } else {
         _state = ResultState.noData;
         notifyListeners();
         return _message = restaurant.message ?? '';

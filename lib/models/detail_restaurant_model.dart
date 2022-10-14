@@ -9,12 +9,12 @@ class DetailRestaurantModel {
     error = json['error'];
     message = json['message'];
     restaurant = json['restaurant'] != null
-        ?  Restaurant.fromJson(json['restaurant'])
+        ? Restaurant.fromJson(json['restaurant'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['error'] = error;
     data['message'] = message;
     if (restaurant != null) {
@@ -104,7 +104,7 @@ class Categories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     return data;
   }
@@ -132,7 +132,7 @@ class Menus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (foods != null) {
       data['foods'] = foods!.map((v) => v.toJson()).toList();
     }
@@ -157,7 +157,7 @@ class CustomerReviews {
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['review'] = review;
     data['date'] = date;

@@ -1,11 +1,11 @@
-class CustomerReviewModel {
+class AddReviewModel {
   bool? error;
   String? message;
   List<CustomerReviews>? customerReviews;
 
-  CustomerReviewModel({this.error, this.message, this.customerReviews});
+  AddReviewModel({this.error, this.message, this.customerReviews});
 
-  CustomerReviewModel.fromJson(Map<String, dynamic> json) {
+  AddReviewModel.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     message = json['message'];
     if (json['customerReviews'] != null) {

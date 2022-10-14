@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/models/detail_restaurant_model.dart';
 import 'package:restaurant_app/providers/detail_restaurant_provider.dart';
 import 'package:restaurant_app/providers/reviews_provider.dart' as reviews;
 import 'package:restaurant_app/service/service_api.dart';
@@ -203,7 +202,7 @@ class DetailRestaurant extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Customer Reviews (${state.restaurant.customerReviews?.length ?? 0})",
+                              "Customer Reviews (${reviewProvider.customerReviews.isEmpty ? state.restaurant.customerReviews?.length ?? 0 : reviewProvider.customerReviews.length})",
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                             TextButton(
@@ -470,11 +469,14 @@ class DetailRestaurant extends StatelessWidget {
                           child: ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount:
-                                state.restaurant.customerReviews?.length ?? 0,
+                            itemCount: reviewProvider.customerReviews.isEmpty
+                                ? state.restaurant.customerReviews?.length ?? 0
+                                : reviewProvider.customerReviews.length,
                             itemBuilder: (context, index) {
-                              CustomerReviews customerReviews =
-                                  state.restaurant.customerReviews![index];
+                              var customerReviews =
+                                  reviewProvider.customerReviews.isEmpty
+                                      ? state.restaurant.customerReviews![index]
+                                      : reviewProvider.customerReviews[index];
                               return state.restaurant.customerReviews!.isEmpty
                                   ? const ErrorText(
                                       textError:

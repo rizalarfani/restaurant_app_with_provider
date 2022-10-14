@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show Client, Response;
-import 'package:restaurant_app/models/customer_review_model.dart';
+import 'package:restaurant_app/models/add_review.dart';
 import 'package:restaurant_app/models/detail_restaurant_model.dart';
 import 'package:restaurant_app/models/restaurant_model.dart';
 import '../utils/constans.dart';
@@ -43,7 +43,7 @@ class ServiceApi {
     }
   }
 
-  Future<CustomerReviewModel> addReview(
+  Future<AddReviewModel> addReview(
       String id, String name, String review) async {
     Uri url = Uri.parse(_baseUrl + 'review');
     Map<String, String> headers = {
@@ -56,7 +56,7 @@ class ServiceApi {
     });
     Response response = await _client.post(url, headers: headers, body: json);
     if (response.statusCode == 201) {
-      return CustomerReviewModel.fromJson(jsonDecode(response.body));
+      return AddReviewModel.fromJson(jsonDecode(response.body));
     } else {
       throw (response.body);
     }
