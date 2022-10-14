@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/categories_provider.dart';
 import 'package:restaurant_app/providers/populars_provider.dart';
+import 'package:restaurant_app/providers/search_restaurant_provider.dart'
+    as search_provider;
 import 'package:restaurant_app/screen/restaurant_all_screen.dart';
+import 'package:restaurant_app/screen/search_screen.dart';
 import 'package:restaurant_app/utils/colors_theme.dart';
 import 'package:restaurant_app/widget/error_text.dart';
 import 'package:restaurant_app/widget/list_category.dart';
@@ -13,6 +16,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final search_provider.SearchRestaurantsProvider searchProvider =
+        Provider.of<search_provider.SearchRestaurantsProvider>(context);
+    final TextEditingController searchController = TextEditingController();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -78,6 +85,7 @@ class HomeScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 1.35,
                     height: 51,
                     child: TextField(
+                      controller: searchController,
                       textInputAction: TextInputAction.search,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -116,15 +124,57 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.search_outlined,
-                        size: 35,
-                        color: ColorsTheme.primaryColor,
-                      ),
-                    ),
+                  Consumer<search_provider.SearchRestaurantsProvider>(
+                    builder: (context, value, _) {
+                      return Expanded(
+                        child: IconButton(
+                          onPressed: () async {
+                            await value.searchQuery(searchController.text);
+                            if (value.state ==
+                                search_provider.ResultState.loading) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Text('Loading..'),
+                                        SizedBox(width: 5),
+                                        CircularProgressIndicator(),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            } else if (value.state ==
+                                search_provider.ResultState.hashData) {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return SearchScreen(
+                                      query: searchController.text,
+                                      restaurants: value.result);
+                                },
+                              ));
+                            } else if (value.state ==
+                                search_provider.ResultState.errors) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(value.message),
+                                  backgroundColor: Colors.redAccent,
+                                ),
+                              );
+                            }
+                          },
+                          icon: Icon(
+                            Icons.search_outlined,
+                            size: 35,
+                            color: ColorsTheme.primaryColor,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

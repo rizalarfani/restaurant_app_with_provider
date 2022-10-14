@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:restaurant_app/models/restaurant_model.dart';
 
 import '../screen/detail_restaurant.dart';
 import '../utils/colors_theme.dart';
 
 class ListAllRestaurants extends StatelessWidget {
-  final Restaurants? restaurant;
+  final dynamic restaurant;
   const ListAllRestaurants({Key? key, this.restaurant}) : super(key: key);
 
   @override
