@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/models/detail_restaurant_model.dart';
 import 'package:restaurant_app/providers/detail_restaurant_provider.dart';
 import 'package:restaurant_app/providers/reviews_provider.dart' as reviews;
 import 'package:restaurant_app/service/service_api.dart';
@@ -140,7 +141,7 @@ class DetailRestaurant extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  'Free delevery',
+                                  state.restaurant.address ?? '',
                                   style: Theme.of(context).textTheme.caption,
                                 ),
                               ],
@@ -196,6 +197,116 @@ class DetailRestaurant extends StatelessWidget {
                                 state.showMore ? 'Show Less' : 'Show More',
                                 style: Theme.of(context).textTheme.bodyText1,
                               )),
+                        ),
+                        const SizedBox(height: 22),
+                        DefaultTabController(
+                          length: 2,
+                          initialIndex: 0,
+                          child: Column(
+                            children: [
+                              TabBar(
+                                indicator: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    30.0,
+                                  ),
+                                  color: ColorsTheme.primaryColor,
+                                ),
+                                labelColor: Colors.white,
+                                unselectedLabelColor: ColorsTheme.primaryColor,
+                                tabs: const [
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      'Foods',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      'Drinks',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 35,
+                                child: TabBarView(children: [
+                                  ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        state.restaurant.menus?.foods?.length ??
+                                            0,
+                                    itemBuilder: (context, index) {
+                                      Foods foods =
+                                          state.restaurant.menus!.foods![index];
+                                      return Container(
+                                        padding: const EdgeInsets.all(10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: ColorsTheme.primaryColor,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10),
+                                            )),
+                                        child: Center(
+                                          child: Text(
+                                            foods.name?.toUpperCase() ?? '',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: ColorsTheme.primaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: state
+                                            .restaurant.menus?.drinks?.length ??
+                                        0,
+                                    itemBuilder: (context, index) {
+                                      Drinks drinks = state
+                                          .restaurant.menus!.drinks![index];
+                                      return Container(
+                                        padding: const EdgeInsets.all(10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: ColorsTheme.primaryColor,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10),
+                                            )),
+                                        child: Center(
+                                          child: Text(
+                                            drinks.name?.toUpperCase() ?? '',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: ColorsTheme.primaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ]),
+                              )
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 22),
                         Row(
@@ -281,6 +392,9 @@ class DetailRestaurant extends StatelessWidget {
                                             textInputAction:
                                                 TextInputAction.next,
                                             keyboardType: TextInputType.name,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                            ),
                                             decoration: InputDecoration(
                                               filled: true,
                                               fillColor: Colors.white,
@@ -327,6 +441,9 @@ class DetailRestaurant extends StatelessWidget {
                                               textInputAction:
                                                   TextInputAction.done,
                                               maxLines: 5,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                              ),
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 fillColor: Colors.white,
@@ -387,9 +504,18 @@ class DetailRestaurant extends StatelessWidget {
                                                     showDialog(
                                                       context: context,
                                                       builder: (context) {
-                                                        return const AlertDialog(
-                                                          content:
+                                                        return AlertDialog(
+                                                          content: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: const [
+                                                              Text('Loading..'),
+                                                              SizedBox(
+                                                                  width: 5),
                                                               CircularProgressIndicator(),
+                                                            ],
+                                                          ),
                                                         );
                                                       },
                                                     );
@@ -399,15 +525,14 @@ class DetailRestaurant extends StatelessWidget {
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
-                                                      SnackBar(
+                                                      const SnackBar(
                                                         backgroundColor:
                                                             Colors.redAccent,
                                                         content: Text(
-                                                          value.message,
+                                                          'successfully added review',
                                                           textAlign:
                                                               TextAlign.center,
-                                                          style:
-                                                              const TextStyle(
+                                                          style: TextStyle(
                                                             color: Colors.white,
                                                           ),
                                                         ),
@@ -485,7 +610,7 @@ class DetailRestaurant extends StatelessWidget {
                                       customerReviews: customerReviews);
                             },
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

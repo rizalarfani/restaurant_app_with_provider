@@ -57,6 +57,8 @@ class ServiceApi {
     Response response = await _client.post(url, headers: headers, body: json);
     if (response.statusCode == 201) {
       return AddReviewModel.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 400) {
+      return AddReviewModel.fromJson(jsonDecode(response.body));
     } else {
       throw (response.body);
     }

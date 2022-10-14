@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/categories_provider.dart';
 import 'package:restaurant_app/providers/populars_provider.dart';
@@ -79,12 +78,6 @@ class HomeScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 1.35,
                     height: 51,
                     child: TextField(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RestaurantsAll(),
-                        ),
-                      ),
                       textInputAction: TextInputAction.search,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -126,10 +119,10 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: IconButton(
                       onPressed: () {},
-                      icon: SvgPicture.asset(
-                        'assets/icons/filter.svg',
-                        height: 25,
-                        width: 25,
+                      icon: Icon(
+                        Icons.search_outlined,
+                        size: 35,
+                        color: ColorsTheme.primaryColor,
                       ),
                     ),
                   ),

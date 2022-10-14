@@ -22,8 +22,8 @@ class HomePage extends StatelessWidget {
               index: state.currentIndex,
               children: const [
                 HomeScreen(),
-                LocationScrenn(),
-                FavoriteScreen(),
+                LocationScreen(),
+                FavorireScreen(),
                 NotificationScreen(),
               ],
             );

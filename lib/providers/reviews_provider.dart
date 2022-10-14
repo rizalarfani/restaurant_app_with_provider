@@ -30,6 +30,7 @@ class ReviewsProvider extends ChangeNotifier {
         notifyListeners();
         _message = result.message ?? '';
       } else {
+        _state = ResultState.errors;
         _message = result.message ?? '';
         notifyListeners();
       }
