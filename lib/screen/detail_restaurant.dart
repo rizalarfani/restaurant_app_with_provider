@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/detail_restaurant_model.dart';
 import 'package:restaurant_app/providers/detail_restaurant_provider.dart';
+import 'package:restaurant_app/providers/reviews_provider.dart' as reviews;
 import 'package:restaurant_app/service/service_api.dart';
 import 'package:restaurant_app/utils/colors_theme.dart';
 import 'package:restaurant_app/widget/list_reviews.dart';
@@ -18,6 +19,10 @@ class DetailRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController textControllerName = TextEditingController();
     final TextEditingController textControllerReview = TextEditingController();
+
+    final reviews.ReviewsProvider reviewProvider =
+        Provider.of<reviews.ReviewsProvider>(context);
+
     return ChangeNotifierProvider<DetailRestaurantProvider>(
       create: (context) =>
           DetailRestaurantProvider(apiService: ServiceApi(), id: id),
@@ -368,18 +373,87 @@ class DetailRestaurant extends StatelessWidget {
                                             ),
                                           ),
                                           const SizedBox(height: 10),
-                                          ElevatedButton(
-                                            onPressed: () {},
-                                            style: ButtonStyle(
-                                              foregroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(Colors.white),
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      ColorsTheme.primaryColor),
-                                            ),
-                                            child: const Text('Add Review'),
+                                          Consumer<reviews.ReviewsProvider>(
+                                            builder: (context, value, _) {
+                                              return ElevatedButton(
+                                                onPressed: () async {
+                                                  await value.addReview(
+                                                      id,
+                                                      textControllerName.text,
+                                                      textControllerReview
+                                                          .text);
+                                                  if (value.state ==
+                                                      reviews.ResultState
+                                                          .loading) {
+                                                    print('loading');
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return const AlertDialog(
+                                                          content:
+                                                              CircularProgressIndicator(),
+                                                        );
+                                                      },
+                                                    );
+                                                  } else if (value.state ==
+                                                      reviews
+                                                          .ResultState.done) {
+                                                    print('done');
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        backgroundColor:
+                                                            Colors.redAccent,
+                                                        content: Text(
+                                                          value.message,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                    Navigator.pop(context);
+                                                  } else if (value.state ==
+                                                      reviews
+                                                          .ResultState.errors) {
+                                                    print(value.message);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        backgroundColor:
+                                                            Colors.redAccent,
+                                                        content: Text(
+                                                          value.message,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                    Navigator.pop(context);
+                                                  }
+                                                },
+                                                style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(Colors.white),
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                              Color>(
+                                                          ColorsTheme
+                                                              .primaryColor),
+                                                ),
+                                                child: const Text('Add Review'),
+                                              );
+                                            },
                                           )
                                         ],
                                       ),

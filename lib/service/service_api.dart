@@ -47,16 +47,19 @@ class ServiceApi {
       String id, String name, String review) async {
     Uri url = Uri.parse(_baseUrl + 'review');
     Map<String, String> headers = {
-      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     };
-    Response response = await _client.post(url, headers: headers, body: {
+    var json = jsonEncode({
       'id': id,
       'name': name,
       'review': review,
     });
+    Response response = await _client.post(url, headers: headers, body: json);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return CustomerReviewModel.fromJson(jsonDecode(response.body));
     } else {
+      print(response.body);
       throw (response.body);
     }
   }

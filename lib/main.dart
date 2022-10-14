@@ -5,6 +5,7 @@ import 'package:restaurant_app/providers/bottom_navigation_bar_provider.dart';
 import 'package:restaurant_app/providers/categories_provider.dart';
 import 'package:restaurant_app/providers/populars_provider.dart';
 import 'package:restaurant_app/providers/restaurants_provider.dart';
+import 'package:restaurant_app/providers/reviews_provider.dart';
 import 'package:restaurant_app/providers/theme_config_provider.dart';
 import 'package:restaurant_app/service/service_api.dart';
 import 'package:restaurant_app/utils/theme_config.dart';
@@ -43,6 +44,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<RestaurantProvider>(
           create: (_) => RestaurantProvider(apiService: ServiceApi()),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ReviewsProvider(apiServie: ServiceApi()),
+        )
       ],
       child: Consumer<ThemeConfigProvider>(
         builder: (context, state, _) {
