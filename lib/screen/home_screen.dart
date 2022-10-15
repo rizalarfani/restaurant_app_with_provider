@@ -16,8 +16,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final search_provider.SearchRestaurantsProvider searchProvider =
-        Provider.of<search_provider.SearchRestaurantsProvider>(context);
     final TextEditingController searchController = TextEditingController();
 
     return Scaffold(
