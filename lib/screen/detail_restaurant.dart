@@ -132,34 +132,45 @@ class DetailRestaurant extends StatelessWidget {
                         const SizedBox(height: 12),
                         Row(
                           children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on_outlined,
-                                  color: ColorsTheme.primaryColor,
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  state.restaurant.address ?? '',
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ],
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    color: ColorsTheme.primaryColor,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    state.restaurant.address ?? '',
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(width: 17),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_city,
-                                  size: 18,
-                                  color: ColorsTheme.primaryColor,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  state.restaurant.city ?? '',
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ],
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_city,
+                                    size: 18,
+                                    color: ColorsTheme.primaryColor,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    state.restaurant.city ?? '',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -451,7 +462,6 @@ class DetailRestaurant extends StatelessWidget {
                                             Expanded(
                                               child: SizedBox(
                                                 width: double.infinity,
-                                                // height: 150,
                                                 child: TextField(
                                                   controller:
                                                       textControllerReview,
