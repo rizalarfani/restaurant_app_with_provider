@@ -131,12 +131,10 @@ class DetailRestaurant extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                              ),
+                            Flexible(
                               child: Row(
                                 children: [
                                   Icon(
@@ -147,14 +145,15 @@ class DetailRestaurant extends StatelessWidget {
                                   const SizedBox(width: 5),
                                   Text(
                                     state.restaurant.address ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                                 ],
                               ),
                             ),
                             const SizedBox(width: 17),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
+                            Flexible(
                               child: Row(
                                 children: [
                                   Icon(
