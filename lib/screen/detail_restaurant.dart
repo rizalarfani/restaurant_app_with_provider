@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/detail_restaurant_model.dart';
 import 'package:restaurant_app/providers/detail_restaurant_provider.dart';
@@ -135,9 +134,10 @@ class DetailRestaurant extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                SvgPicture.asset(
-                                  'assets/icons/delevery.svg',
+                                Icon(
+                                  Icons.location_on_outlined,
                                   color: ColorsTheme.primaryColor,
+                                  size: 18,
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
@@ -149,8 +149,9 @@ class DetailRestaurant extends StatelessWidget {
                             const SizedBox(width: 17),
                             Row(
                               children: [
-                                SvgPicture.asset(
-                                  'assets/icons/clock.svg',
+                                Icon(
+                                  Icons.location_city,
+                                  size: 18,
                                   color: ColorsTheme.primaryColor,
                                 ),
                                 const SizedBox(width: 5),
@@ -450,7 +451,7 @@ class DetailRestaurant extends StatelessWidget {
                                             Expanded(
                                               child: SizedBox(
                                                 width: double.infinity,
-                                                height: 150,
+                                                // height: 150,
                                                 child: TextField(
                                                   controller:
                                                       textControllerReview,

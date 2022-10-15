@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:restaurant_app/screen/detail_restaurant.dart';
 
 import '../models/restaurant_model.dart';
@@ -13,7 +12,13 @@ class ListRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailRestaurant(id: restaurant?.id ?? '',)),);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetailRestaurant(
+                    id: restaurant?.id ?? '',
+                  )),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(
@@ -130,22 +135,8 @@ class ListRestaurant extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset(
-                              'assets/icons/delevery.svg',
-                              color: ColorsTheme.primaryColor,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              'Free delevery',
-                              style: Theme.of(context).textTheme.caption,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 17),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/clock.svg',
+                            Icon(
+                              Icons.location_city,
                               color: ColorsTheme.primaryColor,
                             ),
                             const SizedBox(width: 5),

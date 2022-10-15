@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../screen/detail_restaurant.dart';
 import '../utils/colors_theme.dart';
@@ -134,22 +133,8 @@ class ListAllRestaurants extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset(
-                              'assets/icons/delevery.svg',
-                              color: ColorsTheme.primaryColor,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              'Free delevery',
-                              style: Theme.of(context).textTheme.caption,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 17),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/clock.svg',
+                            Icon(
+                              Icons.location_city,
                               color: ColorsTheme.primaryColor,
                             ),
                             const SizedBox(width: 5),
