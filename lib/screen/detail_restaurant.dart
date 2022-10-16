@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/detail_restaurant_model.dart';
 import 'package:restaurant_app/providers/detail_restaurant_provider.dart';
@@ -132,33 +131,45 @@ class DetailRestaurant extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/delevery.svg',
-                                  color: ColorsTheme.primaryColor,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  state.restaurant.address ?? '',
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ],
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    color: ColorsTheme.primaryColor,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    state.restaurant.address ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(width: 17),
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/clock.svg',
-                                  color: ColorsTheme.primaryColor,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  state.restaurant.city ?? '',
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ],
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_city,
+                                    size: 18,
+                                    color: ColorsTheme.primaryColor,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    state.restaurant.city ?? '',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -312,279 +323,302 @@ class DetailRestaurant extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Customer Reviews (${reviewProvider.customerReviews.isEmpty ? state.restaurant.customerReviews?.length ?? 0 : reviewProvider.customerReviews.length})",
-                              style: Theme.of(context).textTheme.subtitle2,
+                            Expanded(
+                              child: Text(
+                                "Customer Reviews (${reviewProvider.customerReviews.isEmpty ? state.restaurant.customerReviews?.length ?? 0 : reviewProvider.customerReviews.length})",
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                showBottomSheet(
-                                  context: context,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(15),
-                                      topLeft: Radius.circular(15),
-                                    ),
-                                  ),
-                                  backgroundColor: Colors.white,
-                                  builder: (context) {
-                                    return Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 16, right: 24, top: 10),
-                                      width: double.infinity,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              2,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(15),
-                                          topLeft: Radius.circular(15),
-                                        ),
+                            Expanded(
+                              child: TextButton(
+                                onPressed: () {
+                                  showBottomSheet(
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(15),
+                                        topLeft: Radius.circular(15),
                                       ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              InkWell(
-                                                onTap: () =>
-                                                    Navigator.pop(context),
-                                                child: Icon(
-                                                  Icons.close,
-                                                  color: Colors.grey
-                                                      .withOpacity(0.75),
-                                                  size: 25,
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    builder: (context) {
+                                      return Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 16, right: 24, top: 10),
+                                        width: double.infinity,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                2,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(15),
+                                            topLeft: Radius.circular(15),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () =>
+                                                      Navigator.pop(context),
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    color: Colors.grey
+                                                        .withOpacity(0.75),
+                                                    size: 25,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                'Add review restaurant',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color:
-                                                      ColorsTheme.primaryColor,
+                                                Expanded(
+                                                  child: Text(
+                                                    'Add review restaurant',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: ColorsTheme
+                                                          .primaryColor,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  textControllerName.clear();
-                                                  textControllerReview.clear();
-                                                },
-                                                child: Text(
-                                                  'Clear',
-                                                  style: TextStyle(
+                                                TextButton(
+                                                  onPressed: () {
+                                                    textControllerName.clear();
+                                                    textControllerReview
+                                                        .clear();
+                                                  },
+                                                  child: Text(
+                                                    'Clear',
+                                                    style: TextStyle(
+                                                      color: ColorsTheme
+                                                          .secundaryTextColor,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Expanded(
+                                              child: TextField(
+                                                controller: textControllerName,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                keyboardType:
+                                                    TextInputType.name,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                                decoration: InputDecoration(
+                                                  filled: true,
+                                                  fillColor: Colors.white,
+                                                  hintText: 'Name address',
+                                                  hintStyle: TextStyle(
+                                                    fontSize: 14,
                                                     color: ColorsTheme
                                                         .secundaryTextColor,
-                                                    fontSize: 18,
                                                   ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 20),
-                                          TextField(
-                                            controller: textControllerName,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            keyboardType: TextInputType.name,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                            decoration: InputDecoration(
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              hintText: 'Name address',
-                                              hintStyle: TextStyle(
-                                                fontSize: 14,
-                                                color: ColorsTheme
-                                                    .secundaryTextColor,
-                                              ),
-                                              border: const OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(10),
-                                                ),
-                                              ),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Color.fromRGBO(
-                                                        241, 240, 240, 1),
-                                                    width: 1.0),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(10),
-                                                ),
-                                              ),
-                                              focusedBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Color.fromRGBO(
-                                                        241, 240, 240, 1),
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(15),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 20),
-                                          SizedBox(
-                                            width: double.infinity,
-                                            height: 150,
-                                            child: TextField(
-                                              controller: textControllerReview,
-                                              keyboardType: TextInputType.text,
-                                              textInputAction:
-                                                  TextInputAction.done,
-                                              maxLines: 5,
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                              ),
-                                              decoration: InputDecoration(
-                                                filled: true,
-                                                fillColor: Colors.white,
-                                                hintText: 'Review',
-                                                hintStyle: TextStyle(
-                                                  fontSize: 14,
-                                                  color: ColorsTheme
-                                                      .secundaryTextColor,
-                                                ),
-                                                border:
-                                                    const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    width: 2,
+                                                  border:
+                                                      const OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(10),
+                                                    ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(10),
+                                                  enabledBorder:
+                                                      const OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Color.fromRGBO(
+                                                            241, 240, 240, 1),
+                                                        width: 1.0),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(10),
+                                                    ),
                                                   ),
-                                                ),
-                                                enabledBorder:
-                                                    const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Color.fromRGBO(
-                                                          241, 240, 240, 1),
-                                                      width: 1.0),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(10),
-                                                  ),
-                                                ),
-                                                focusedBorder:
-                                                    const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Color.fromRGBO(
-                                                          241, 240, 240, 1),
-                                                      width: 2.0),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(15),
+                                                  focusedBorder:
+                                                      const OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Color.fromRGBO(
+                                                            241, 240, 240, 1),
+                                                        width: 2.0),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(15),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          Consumer<reviews.ReviewsProvider>(
-                                            builder: (context, value, _) {
-                                              return ElevatedButton(
-                                                onPressed: () async {
-                                                  await value.addReview(
-                                                      id,
-                                                      textControllerName.text,
-                                                      textControllerReview
-                                                          .text);
-                                                  if (value.state ==
-                                                      reviews.ResultState
-                                                          .loading) {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return AlertDialog(
-                                                          content: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: const [
-                                                              Text('Loading..'),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              CircularProgressIndicator(),
-                                                            ],
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
-                                                  } else if (value.state ==
-                                                      reviews
-                                                          .ResultState.done) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      const SnackBar(
-                                                        backgroundColor:
-                                                            Colors.redAccent,
-                                                        content: Text(
-                                                          'successfully added review',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Colors.white,
+                                            const SizedBox(height: 10),
+                                            Expanded(
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: TextField(
+                                                  controller:
+                                                      textControllerReview,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  textInputAction:
+                                                      TextInputAction.done,
+                                                  maxLines: 5,
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                    hintText: 'Review',
+                                                    hintStyle: TextStyle(
+                                                      fontSize: 14,
+                                                      color: ColorsTheme
+                                                          .secundaryTextColor,
+                                                    ),
+                                                    border:
+                                                        const OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        width: 2,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                    enabledBorder:
+                                                        const OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Color.fromRGBO(
+                                                              241, 240, 240, 1),
+                                                          width: 1.0),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                    focusedBorder:
+                                                        const OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Color.fromRGBO(
+                                                              241, 240, 240, 1),
+                                                          width: 2.0),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(15),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Consumer<reviews.ReviewsProvider>(
+                                              builder: (context, value, _) {
+                                                return ElevatedButton(
+                                                  onPressed: () async {
+                                                    await value.addReview(
+                                                        id,
+                                                        textControllerName.text,
+                                                        textControllerReview
+                                                            .text);
+                                                    if (value.state ==
+                                                        reviews.ResultState
+                                                            .loading) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return AlertDialog(
+                                                            content: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: const [
+                                                                Text(
+                                                                    'Loading..'),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                CircularProgressIndicator(),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    } else if (value.state ==
+                                                        reviews
+                                                            .ResultState.done) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          backgroundColor:
+                                                              Colors.redAccent,
+                                                          content: Text(
+                                                            'successfully added review',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    );
-                                                    Navigator.pop(context);
-                                                  } else if (value.state ==
-                                                      reviews
-                                                          .ResultState.errors) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        backgroundColor:
-                                                            Colors.redAccent,
-                                                        content: Text(
-                                                          value.message,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.white,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    } else if (value.state ==
+                                                        reviews.ResultState
+                                                            .errors) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.redAccent,
+                                                          content: Text(
+                                                            value.message,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    );
-                                                    Navigator.pop(context);
-                                                  }
-                                                },
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(Colors.white),
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all<
-                                                              Color>(
-                                                          ColorsTheme
-                                                              .primaryColor),
-                                                ),
-                                                child: const Text('Add Review'),
-                                              );
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Text(
-                                'Add review',
-                                style: Theme.of(context).textTheme.subtitle2,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    }
+                                                  },
+                                                  style: ButtonStyle(
+                                                    foregroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                                Colors.white),
+                                                    backgroundColor:
+                                                        MaterialStateProperty.all<
+                                                                Color>(
+                                                            ColorsTheme
+                                                                .primaryColor),
+                                                  ),
+                                                  child:
+                                                      const Text('Add Review'),
+                                                );
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text(
+                                  'Add review',
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                ),
                               ),
                             )
                           ],
