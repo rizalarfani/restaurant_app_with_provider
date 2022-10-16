@@ -131,45 +131,44 @@ class DetailRestaurant extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Flexible(
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on_outlined,
-                                    color: ColorsTheme.primaryColor,
-                                    size: 18,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  color: ColorsTheme.primaryColor,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 5),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  child: Text(
                                     state.restaurant.address ?? '',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context).textTheme.caption,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             const SizedBox(width: 17),
-                            Flexible(
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_city,
-                                    size: 18,
-                                    color: ColorsTheme.primaryColor,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    state.restaurant.city ?? '',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: Theme.of(context).textTheme.caption,
-                                  ),
-                                ],
-                              ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_city,
+                                  size: 18,
+                                  color: ColorsTheme.primaryColor,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  state.restaurant.city ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ],
                             ),
                           ],
                         ),
